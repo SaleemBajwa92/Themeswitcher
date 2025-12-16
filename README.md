@@ -12,16 +12,38 @@ A Magento 2 extension that allows you to switch themes dynamically based on layo
 
 ## Installation
 
-### Via Composer (Recommended)
+### Via Composer from GitHub
 
+Add the repository to your `composer.json`:
+
+```json
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/SaleemBajwa92/Themeswitcher.git"
+        }
+    ],
+    "require": {
+        "pointeger/magento-2-theme-switcher": "dev-main"
+    }
+}
+```
+
+Then run:
 ```bash
-composer require pointeger/magento-2-theme-switcher
+composer require pointeger/magento-2-theme-switcher:dev-main
 ```
 
 ### Manual Installation
 
-1. Clone or download this repository
-2. Copy the module to `app/code/Pointeger/ThemeSwitcher/`
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/SaleemBajwa92/Themeswitcher.git app/code/Pointeger/ThemeSwitcher
+   ```
+
+2. Or download and extract to `app/code/Pointeger/ThemeSwitcher/`
+
 3. Run the following commands:
 
 ```bash
@@ -45,6 +67,10 @@ php bin/magento cache:flush
 ## Support
 
 For support, please contact: support@pointeger.com
+
+## Repository
+
+GitHub: https://github.com/SaleemBajwa92/Themeswitcher
 
 ## License
 
