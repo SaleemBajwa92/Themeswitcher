@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="pointeger_themeswitcher" translate="label" type="text" sortOrder="100" showInDefault="1"
+                 showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Theme Switcher</label>
+            <tab>general</tab>
+            <resource>Pointeger_ThemeSwitcher::config</resource>
+
+            <group id="theme_configuration" translate="label" type="text" sortOrder="10" showInDefault="1"
+                   showInWebsite="1" showInStore="1">
+                <label>Theme Configuration</label>
+                <comment>Configure multiple theme mappings. Each mapping allows you to assign a theme to specific layout
+                    XML handles. Click "Add Theme Mapping" to create multiple configurations.
+                </comment>
+
+                <field id="theme_mappings" translate="label comment" type="text" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Theme Mappings</label>
+                    <comment>Configure which theme should be used for specific layout XML handles. You can add multiple
+                        mappings to use different themes for different pages.
+                    </comment>
+                    <frontend_model>Pointeger\ThemeSwitcher\Block\Adminhtml\System\Config\Form\Field\ThemeMappings
+                    </frontend_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
+
