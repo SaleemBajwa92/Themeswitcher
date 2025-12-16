@@ -14,7 +14,15 @@ A Magento 2 extension that allows you to switch themes dynamically based on layo
 
 ### Via Composer from GitHub
 
-Add the repository to your `composer.json`:
+**Method 1: One-line installation (Recommended)**
+
+```bash
+composer config repositories.themeswitcher vcs https://github.com/SaleemBajwa92/Themeswitcher.git && composer require pointeger/magento-2-theme-switcher:dev-main
+```
+
+**Method 2: Manual repository configuration**
+
+1. Add the repository to your `composer.json`:
 
 ```json
 {
@@ -23,16 +31,20 @@ Add the repository to your `composer.json`:
             "type": "vcs",
             "url": "https://github.com/SaleemBajwa92/Themeswitcher.git"
         }
-    ],
-    "require": {
-        "pointeger/magento-2-theme-switcher": "dev-main"
-    }
+    ]
 }
 ```
 
-Then run:
+2. Then run:
 ```bash
 composer require pointeger/magento-2-theme-switcher:dev-main
+```
+
+3. After installation, run Magento commands:
+```bash
+php bin/magento module:enable Pointeger_ThemeSwitcher
+php bin/magento setup:upgrade
+php bin/magento cache:flush
 ```
 
 ### Manual Installation
