@@ -1,4 +1,8 @@
 <?php
+/**
+ * Copyright © Pointeger. All rights reserved.
+ * See COPYING.txt for license details.
+ */
 
 declare(strict_types=1);
 
@@ -52,8 +56,6 @@ class SwitchTheme implements ObserverInterface
     }
 
     /**
-     * Execute observer
-     *
      * @param Observer $observer
      * @return void
      */
@@ -68,8 +70,6 @@ class SwitchTheme implements ObserverInterface
             }
 
             $storeId = $this->storeManager->getStore()->getId();
-
-            // Get theme code for this specific handle
             $themeCode = $this->helper->getThemeCodeForHandle($fullActionName, $storeId);
 
             if (!$themeCode) {
@@ -86,4 +86,3 @@ class SwitchTheme implements ObserverInterface
         }
     }
 }
-

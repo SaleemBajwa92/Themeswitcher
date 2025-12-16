@@ -1,11 +1,15 @@
 <?php
+/**
+ * Copyright © Pointeger. All rights reserved.
+ * See COPYING.txt for license details.
+ */
 
 declare(strict_types=1);
 
 namespace Pointeger\ThemeSwitcher\Plugin;
 
 use Magento\Framework\View\DesignInterface;
-use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\Request\Http as HttpRequest;
 use Pointeger\ThemeSwitcher\Helper\Data as Helper;
 use Psr\Log\LoggerInterface;
 
@@ -17,7 +21,7 @@ class DesignInterfacePlugin
     private $helper;
 
     /**
-     * @var RequestInterface
+     * @var HttpRequest
      */
     private $request;
 
@@ -33,12 +37,12 @@ class DesignInterfacePlugin
 
     /**
      * @param Helper $helper
-     * @param RequestInterface $request
+     * @param HttpRequest $request
      * @param LoggerInterface $logger
      */
     public function __construct(
         Helper $helper,
-        RequestInterface $request,
+        HttpRequest $request,
         LoggerInterface $logger
     ) {
         $this->helper = $helper;
@@ -47,8 +51,6 @@ class DesignInterfacePlugin
     }
 
     /**
-     * Intercept theme configuration to switch theme based on layout handle
-     *
      * @param DesignInterface $subject
      * @param \Closure $proceed
      * @param string|null $area
@@ -61,7 +63,6 @@ class DesignInterfacePlugin
         $area = null,
         $params = []
     ) {
-        // Prevent recursion
         if ($this->isProcessing) {
             return $proceed($area, $params);
         }
@@ -73,12 +74,15 @@ class DesignInterfacePlugin
                 return $proceed($area, $params);
             }
 
-            $fullActionName = $this->request->getFullActionName();
+            $moduleName = $this->request->getModuleName();
+            $controllerName = $this->request->getControllerName();
+            $actionName = $this->request->getActionName();
 
-            if (empty($fullActionName)) {
+            if (empty($moduleName) || empty($controllerName) || empty($actionName)) {
                 return $proceed($area, $params);
             }
 
+            $fullActionName = strtolower($moduleName . '_' . $controllerName . '_' . $actionName);
             $themeCode = $this->helper->getThemeCodeForHandle($fullActionName);
 
             if ($themeCode) {
@@ -97,4 +101,3 @@ class DesignInterfacePlugin
         return $proceed($area, $params);
     }
 }
-

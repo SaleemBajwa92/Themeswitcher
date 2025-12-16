@@ -1,20 +1,22 @@
 <?php
+/**
+ * Copyright © Pointeger. All rights reserved.
+ * See COPYING.txt for license details.
+ */
 
 declare(strict_types=1);
 
 namespace Pointeger\ThemeSwitcher\Model\Source;
 
 use Magento\Framework\Data\OptionSourceInterface;
-use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\Filesystem\Directory\ReadFactory;
-use Magento\Framework\App\Utility\Files;
+use Pointeger\ThemeSwitcher\Helper\Data as Helper;
 
 class LayoutHandles implements OptionSourceInterface
 {
     /**
-     * @var ReadFactory
+     * @var Helper
      */
-    private $readFactory;
+    private $helper;
 
     /**
      * @var array|null
@@ -22,17 +24,15 @@ class LayoutHandles implements OptionSourceInterface
     private $handles = null;
 
     /**
-     * @param ReadFactory $readFactory
+     * @param Helper $helper
      */
     public function __construct(
-        ReadFactory $readFactory
+        Helper $helper
     ) {
-        $this->readFactory = $readFactory;
+        $this->helper = $helper;
     }
 
     /**
-     * Return array of options as value-label pairs
-     *
      * @return array
      */
     public function toOptionArray(): array
@@ -51,14 +51,11 @@ class LayoutHandles implements OptionSourceInterface
     }
 
     /**
-     * Get common layout handles from frontend area
-     *
      * @return array
      */
     private function getLayoutHandles(): array
     {
         if ($this->handles === null) {
-            // Common Magento 2 frontend layout handles
             $this->handles = [
                 'default',
                 'cms_index_index',
@@ -101,10 +98,15 @@ class LayoutHandles implements OptionSourceInterface
                 'onestepcheckout_index_index',
             ];
 
+            $customHandles = $this->helper->getCustomHandles();
+            if (!empty($customHandles)) {
+                $this->handles = array_merge($this->handles, $customHandles);
+                $this->handles = array_unique($this->handles);
+            }
+
             sort($this->handles);
         }
 
         return $this->handles;
     }
 }
-

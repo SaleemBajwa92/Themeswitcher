@@ -1,4 +1,8 @@
 <?php
+/**
+ * Copyright © Pointeger. All rights reserved.
+ * See COPYING.txt for license details.
+ */
 
 declare(strict_types=1);
 
@@ -9,7 +13,6 @@ use Magento\Framework\Data\Form\Element\AbstractElement;
 use Pointeger\ThemeSwitcher\Model\Source\Theme as ThemeSource;
 use Pointeger\ThemeSwitcher\Model\Source\LayoutHandles as LayoutHandlesSource;
 use Magento\Framework\Json\EncoderInterface;
-use Magento\Framework\View\Asset\Repository as AssetRepository;
 
 class ThemeMappings extends Field
 {
@@ -29,16 +32,10 @@ class ThemeMappings extends Field
     private $jsonEncoder;
 
     /**
-     * @var AssetRepository
-     */
-    private $assetRepository;
-
-    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param ThemeSource $themeSource
      * @param LayoutHandlesSource $layoutHandlesSource
      * @param EncoderInterface $jsonEncoder
-     * @param AssetRepository $assetRepository
      * @param array $data
      */
     public function __construct(
@@ -46,14 +43,12 @@ class ThemeMappings extends Field
         ThemeSource $themeSource,
         LayoutHandlesSource $layoutHandlesSource,
         EncoderInterface $jsonEncoder,
-        AssetRepository $assetRepository,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->themeSource = $themeSource;
         $this->layoutHandlesSource = $layoutHandlesSource;
         $this->jsonEncoder = $jsonEncoder;
-        $this->assetRepository = $assetRepository;
     }
 
     /**
@@ -67,7 +62,6 @@ class ThemeMappings extends Field
         $elementName = $element->getName();
         $elementValue = $element->getValue() ?: '[]';
 
-        // Get theme options
         $themeOptions = [];
         foreach ($this->themeSource->toOptionArray() as $option) {
             if (!empty($option['value'])) {
@@ -75,7 +69,6 @@ class ThemeMappings extends Field
             }
         }
 
-        // Get handle options
         $handleOptions = [];
         foreach ($this->layoutHandlesSource->toOptionArray() as $option) {
             $handleOptions[$option['value']] = $option['label'];
@@ -104,4 +97,3 @@ class ThemeMappings extends Field
         return $html;
     }
 }
-

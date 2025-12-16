@@ -1,4 +1,8 @@
 <?php
+/**
+ * Copyright © Pointeger. All rights reserved.
+ * See COPYING.txt for license details.
+ */
 
 declare(strict_types=1);
 
@@ -52,8 +56,6 @@ class SwitchThemeEarly implements ObserverInterface
     }
 
     /**
-     * Execute observer - Set theme early in request lifecycle
-     *
      * @param Observer $observer
      * @return void
      */
@@ -66,7 +68,6 @@ class SwitchThemeEarly implements ObserverInterface
                 return;
             }
 
-            // Get full action name (layout handle)
             $moduleName = $request->getModuleName();
             $controllerName = $request->getControllerName();
             $actionName = $request->getActionName();
@@ -82,8 +83,6 @@ class SwitchThemeEarly implements ObserverInterface
             }
 
             $storeId = $this->storeManager->getStore()->getId();
-
-            // Get theme code for this specific handle
             $themeCode = $this->helper->getThemeCodeForHandle($fullActionName, $storeId);
 
             if (!$themeCode) {
@@ -105,4 +104,3 @@ class SwitchThemeEarly implements ObserverInterface
         }
     }
 }
-

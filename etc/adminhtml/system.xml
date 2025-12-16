@@ -2,12 +2,33 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
+        <tab id="pointeger" translate="label" sortOrder="402" class="pointeger-extensions">
+            <label>Pointeger Extensions</label>
+        </tab>
         <section id="pointeger_themeswitcher" translate="label" type="text" sortOrder="100" showInDefault="1"
                  showInWebsite="1" showInStore="1">
             <class>separator-top</class>
             <label>Theme Switcher</label>
-            <tab>general</tab>
+            <tab>pointeger</tab>
             <resource>Pointeger_ThemeSwitcher::config</resource>
+
+            <group id="custom_handles" translate="label" type="text" sortOrder="5" showInDefault="1"
+                   showInWebsite="1" showInStore="1">
+                <label>Add Layout Handles</label>
+                <comment>Add custom layout handles that will be merged with predefined handles. These handles will be
+                    available in the theme mapping configuration below.
+                </comment>
+
+                <field id="custom_layout_handles" translate="label comment" type="text" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Custom Layout Handles</label>
+                    <comment>Enter custom layout handle names, one per line. These will be added to the available
+                        handles list.
+                    </comment>
+                    <frontend_model>Pointeger\ThemeSwitcher\Block\Adminhtml\System\Config\Form\Field\CustomHandles</frontend_model>
+                    <backend_model>Pointeger\ThemeSwitcher\Model\Config\Backend\CustomHandles</backend_model>
+                </field>
+            </group>
 
             <group id="theme_configuration" translate="label" type="text" sortOrder="10" showInDefault="1"
                    showInWebsite="1" showInStore="1">
@@ -22,8 +43,7 @@
                     <comment>Configure which theme should be used for specific layout XML handles. You can add multiple
                         mappings to use different themes for different pages.
                     </comment>
-                    <frontend_model>Pointeger\ThemeSwitcher\Block\Adminhtml\System\Config\Form\Field\ThemeMappings
-                    </frontend_model>
+                    <frontend_model>Pointeger\ThemeSwitcher\Block\Adminhtml\System\Config\Form\Field\ThemeMappings</frontend_model>
                 </field>
             </group>
         </section>

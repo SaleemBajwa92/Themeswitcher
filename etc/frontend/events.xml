@@ -7,4 +7,3 @@
         <observer name="pointeger_themeswitcher_switch_theme" instance="Pointeger\ThemeSwitcher\Observer\SwitchTheme"/>
     </event>
 </config>
-

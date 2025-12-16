@@ -1,4 +1,8 @@
 <?php
+/**
+ * Copyright © Pointeger. All rights reserved.
+ * See COPYING.txt for license details.
+ */
 
 declare(strict_types=1);
 
@@ -11,7 +15,7 @@ use Psr\Log\LoggerInterface;
 class Theme implements OptionSourceInterface
 {
     /**
-     * @var \Magento\Theme\Model\ResourceModel\Theme\CollectionFactory
+     * @var ThemeCollectionFactory
      */
     private $themeCollectionFactory;
 
@@ -26,21 +30,18 @@ class Theme implements OptionSourceInterface
     private $options = null;
 
     /**
-     * @param \Magento\Theme\Model\ResourceModel\Theme\CollectionFactory $themeCollectionFactory
+     * @param ThemeCollectionFactory $themeCollectionFactory
      * @param LoggerInterface $logger
      */
     public function __construct(
         ThemeCollectionFactory $themeCollectionFactory,
-        LoggerInterface        $logger
-    )
-    {
+        LoggerInterface $logger
+    ) {
         $this->themeCollectionFactory = $themeCollectionFactory;
         $this->logger = $logger;
     }
 
     /**
-     * Return array of options as value-label pairs
-     *
      * @return array
      */
     public function toOptionArray(): array
@@ -54,19 +55,13 @@ class Theme implements OptionSourceInterface
         ];
 
         try {
-            /** @var \Magento\Theme\Model\ResourceModel\Theme\Collection $themeCollection */
             $themeCollection = $this->themeCollectionFactory->create();
-
             $themeCollection->addFilter('area', 'frontend');
             $themeCollection->getSelect()->order('theme_title ASC');
 
-            /** @var \Magento\Framework\View\Design\ThemeInterface $theme */
             foreach ($themeCollection as $theme) {
                 $themeCode = $theme->getCode();
-
-                /** @phpstan-ignore-next-line */
                 $themeTitle = $theme->getThemeTitle();
-
                 $label = !empty($themeTitle) ? $themeTitle : $themeCode;
 
                 $this->options[] = [

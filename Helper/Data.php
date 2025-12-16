@@ -1,4 +1,8 @@
 <?php
+/**
+ * Copyright © Pointeger. All rights reserved.
+ * See COPYING.txt for license details.
+ */
 
 declare(strict_types=1);
 
@@ -10,10 +14,9 @@ use Magento\Store\Model\ScopeInterface;
 class Data extends AbstractHelper
 {
     const XML_PATH_THEME_MAPPINGS = 'pointeger_themeswitcher/theme_configuration/theme_mappings';
+    const XML_PATH_CUSTOM_HANDLES = 'pointeger_themeswitcher/custom_handles/custom_layout_handles';
 
     /**
-     * Get all theme mappings
-     *
      * @param int|null $storeId
      * @return array
      */
@@ -38,8 +41,6 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Check if handle should use custom theme
-     *
      * @param string $handle
      * @param int|null $storeId
      * @return bool
@@ -51,8 +52,6 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Get theme code for a specific handle
-     *
      * @param string $handle
      * @param int|null $storeId
      * @return string|null
@@ -79,9 +78,6 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Get theme code based on selected theme (backward compatibility)
-     * Now uses the new mapping system
-     *
      * @param int|null $storeId
      * @return string|null
      */
@@ -94,5 +90,36 @@ class Data extends AbstractHelper
 
         return null;
     }
-}
 
+    /**
+     * @param int|null $storeId
+     * @return array
+     */
+    public function getCustomHandles($storeId = null): array
+    {
+        $customHandlesJson = $this->scopeConfig->getValue(
+            self::XML_PATH_CUSTOM_HANDLES,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+
+        if (empty($customHandlesJson)) {
+            return [];
+        }
+
+        if (is_string($customHandlesJson)) {
+            $customHandles = json_decode($customHandlesJson, true);
+            if (is_array($customHandles)) {
+                $handles = [];
+                foreach ($customHandles as $handleData) {
+                    if (isset($handleData['handle']) && !empty(trim($handleData['handle']))) {
+                        $handles[] = trim($handleData['handle']);
+                    }
+                }
+                return array_filter($handles);
+            }
+        }
+
+        return [];
+    }
+}

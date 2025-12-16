@@ -4,20 +4,3 @@
 *.swp
 *.swo
 *~
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Composer
-/vendor/
-composer.lock
-
-# Magento
-/var/
-/pub/static/
-/pub/media/catalog/
-/pub/media/import/
-/app/etc/env.php
-/app/etc/config.php
-
